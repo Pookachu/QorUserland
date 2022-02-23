@@ -11,9 +11,11 @@ int cmp(const void* a, const void b)
 	return strcmp((char*)a, (char*)b);
 }
 
+int get_length(FILE* fp);
+
 FILE *open_file(char *fp);
 
-char *load_file(char *file, char*file1);
+char *load_files(char *act_path, char *acc_path);
 
 int acceptable_guess(char *haystack, int left_index, int right_index, char *guess);
 
@@ -37,29 +39,29 @@ int main(int argc, char **argv)
 	}
 
 	//load word lists into memory as char arrays
-        char *buffer = loadfile(ACTUAL_WORD_LIST, ACCEPTABLE_ANSWER_LIST);
+        char *buffer = load_files(ACTUAL_WORD_LIST, ACCEPTABLE_ANSWER_LIST);
 
 	//get word of the day and store in WoTD variable.
         time_t seconds = time(NULL);
 	char WoTD[6];
         for(int i = 0; i < 6; i++)
         {
-                if(buffer1[seconds/86400%2309*6+i] == '\n')
+                if(buffer[seconds/86400%2309*6+i] == '\n')
                 {
                         WoTD[i] = '\0';
                 }
                 else
                 {
-                        WoTD[i] =  buffer1[seconds/86400%2309*6+i];
+                        WoTD[i] =  buffer[seconds/86400%2309*6+i];
                 }
         }
 
 	//convert all new lines to null terminators
-	for(int i = 0; i < 63822; i++)
+	for(int i = 0; i < 77682; i++)
 	{
-		if(buffer2[i] == '\n')
+		if(buffer[i] == '\n')
 		{
-			buffer2[i] = '\0';
+			buffer[i] = '\0';
 		}
 	}
 
@@ -90,7 +92,7 @@ int main(int argc, char **argv)
 		}
 
 		//check if input is not in the acceptable guess list
-		else if(acceptable_guess(buffer2, 0, 10638, guess) == -1 && acceptable_guess(buffer1, 0, 2309, guess) == -1)
+		else if(acceptable_guess(buffer, 0, 12947, guess) == -1)
 		{
 			for(int i = 0; i < strlen(guess)-1; i++)
 			{
@@ -101,7 +103,7 @@ int main(int argc, char **argv)
 		else
 		{
 			guesses++;
-			printf("Good word");
+			printf("Good word\n");
 		}
 
 	}	
@@ -134,7 +136,7 @@ FILE *open_file(char *file)
 	return fp*;
 }
 
-char *loadFile(char *act_path, char *acc_path)
+char *load_files(char *act_path, char *acc_path)
 {
 	FILE *act = open_file(act_path);
 	FILE *acc = open_file(acc_path);
@@ -177,7 +179,7 @@ char *loadFile(char *act_path, char *acc_path)
         return buffer;
 }
 
-int acceptableGuess(char *haystack, int left_index, int right_index, char *guess)
+int acceptable_guess(char *haystack, int left_index, int right_index, char *guess)
 {
 	while(left_index <= right_index)
 	{
@@ -205,7 +207,7 @@ int acceptableGuess(char *haystack, int left_index, int right_index, char *guess
 	return -1;
 }
 
-void printHelp()
+void print_help()
 {
 	//todo?
 	printf("lol it's wordle\n");
