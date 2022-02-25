@@ -6,7 +6,7 @@
 #define ACTUAL_WORD_LIST "/usr/assets/act.csv"
 #define ACCEPTABLE_ANSWER_LIST "/usr/assets/acc.csv"
 
-int cmp(const void* a, const void b)
+int cmp(const void* a, const void* b)
 {
 	return strcmp((char*)a, (char*)b);
 }
@@ -69,28 +69,40 @@ int main(int argc, char **argv)
 	char guess[128];
 	int guesses = 1;
 
+	printf("Guess the 5 letter word of the day!\n");
 	while(1)
 	{
 		printf("[%i] ", guesses);
 		gets(guess);
 
 		//check if input is more than 5 chars
-		if(strlen(guess) > 6)
+		if(strlen(guess != 6))
 		{
-			for(int i = 0; i < strlen(guess)-1; i++)
+			if(strlen(guess) > 6)
 			{
-				if( i < 5)
+				for(int i = 0; i < strlen(guess)-1; i++)
 				{
-					printf("%c", guess[i]);
+					if( i < 5)
+					{
+						printf("%c", guess[i]);
+					}
+					else
+					{
+						printf("\x1b[41m%c", guess[i]);
+					}
 				}
-				else
+				printf("\x1b[0m\n");
+			}
+			else
+			{
+				for(int i = 0; i < strlen(guess); i++)
 				{
 					printf("\x1b[41m%c", guess[i]);
 				}
+				printf("\x1b[0m\n");
 			}
-			printf("\x1b[0m\n");
 		}
-
+		
 		//check if input is not in the acceptable guess list
 		else if(acceptable_guess(buffer, 0, 12947, guess) == -1)
 		{
@@ -104,6 +116,7 @@ int main(int argc, char **argv)
 		{
 			guesses++;
 			printf("Good word\n");
+			return 0;
 		}
 
 	}	
@@ -131,9 +144,9 @@ FILE *open_file(char *file)
 	if(!fp)
 	{
 		perror("fopen() failed");
-		exit(1)
+		exit(1);
 	}
-	return fp*;
+	return fp;
 }
 
 char *load_files(char *act_path, char *acc_path)
