@@ -39,21 +39,21 @@ int main(int argc, char **argv)
 	}
 
 	//load word lists into memory as char arrays
-    char *buffer = load_files(ACTUAL_WORD_LIST, ACCEPTABLE_ANSWER_LIST);
+	char *buffer = load_files(ACTUAL_WORD_LIST, ACCEPTABLE_ANSWER_LIST);
 
 	//get word of the day and store in WoTD variable.
-    time_t seconds = time(NULL);
+	time_t seconds = time(NULL);
 	char WoTD[6];
 	for(int i = 0; i < 6; i++)
 	{
-			if(buffer[seconds/86400%2309*6+i] == '\n')
-			{
-					WoTD[i] = '\0';
-			}
-			else
-			{
-					WoTD[i] =  buffer[seconds/86400%2309*6+i];
-			}
+		if(buffer[seconds/86400%2309*6+i] == '\n')
+		{
+				WoTD[i] = '\0';
+		}
+		else
+		{
+				WoTD[i] =  buffer[seconds/86400%2309*6+i];
+		}
 	}
 
 	//convert all new lines to null terminators
@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 	}
 
 	//sort buffer to search entire word list
-	qsort(buffer, 77682, sizeof(char), cmp);
+	qsort(buffer, 12947, sizeof(char), cmp);
 
 	//game loop starts here
 	char guess[128];
@@ -124,8 +124,8 @@ int main(int argc, char **argv)
 
 	}	
 
-        free(buffer);
-        return 0;
+		free(buffer);
+		return 0;
 }
 
 int get_length(FILE* fp)
@@ -133,9 +133,9 @@ int get_length(FILE* fp)
 	int length = fseek(fp, 0L, SEEK_END);
 	if (length < 0)
  	{
-    		perror("seek failed");
-    		fclose(fp);
-    		exit(1);
+			perror("seek failed");
+			fclose(fp);
+			exit(1);
   	}
   	fseek(fp, 0, SEEK_SET);
   	return length + 1;
@@ -160,25 +160,25 @@ char *load_files(char *act_path, char *acc_path)
 	int act_length = get_length(act);
 	int acc_length = get_length(acc);
 
-        char *buffer = malloc(act_length + acc_length + 2);
-        if (!buffer)
-        {
+		char *buffer = malloc(act_length + acc_length + 2);
+		if (!buffer)
+		{
 		eprintf("Allocation failed.\n");
-                fclose(act);
+				fclose(act);
 		fclose(acc);
 
 		exit(1);
-        }
+		}
 
-        if(fread(buffer, act_length, 1, act) != 1)
-        {
+		if(fread(buffer, act_length, 1, act) != 1)
+		{
 		perror("fread() failed.");
 		free(buffer);
-                fclose(act);
+				fclose(act);
 		fclose(acc);
 
-                exit(1);
-        }
+				exit(1);
+		}
 
 	if(fread(buffer+act_length, acc_length, 1, acc) != 1)
 	{
@@ -190,9 +190,9 @@ char *load_files(char *act_path, char *acc_path)
 		exit(1);
 	}	
 
-        fclose(act);
+		fclose(act);
 	fclose(acc);
-        return buffer;
+		return buffer;
 }
 
 int acceptable_guess(char *haystack, int left_index, int right_index, char *guess)
