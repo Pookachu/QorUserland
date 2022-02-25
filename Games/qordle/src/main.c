@@ -39,22 +39,22 @@ int main(int argc, char **argv)
 	}
 
 	//load word lists into memory as char arrays
-        char *buffer = load_files(ACTUAL_WORD_LIST, ACCEPTABLE_ANSWER_LIST);
+    char *buffer = load_files(ACTUAL_WORD_LIST, ACCEPTABLE_ANSWER_LIST);
 
 	//get word of the day and store in WoTD variable.
-        time_t seconds = time(NULL);
+    time_t seconds = time(NULL);
 	char WoTD[6];
-        for(int i = 0; i < 6; i++)
-        {
-                if(buffer[seconds/86400%2309*6+i] == '\n')
-                {
-                        WoTD[i] = '\0';
-                }
-                else
-                {
-                        WoTD[i] =  buffer[seconds/86400%2309*6+i];
-                }
-        }
+	for(int i = 0; i < 6; i++)
+	{
+			if(buffer[seconds/86400%2309*6+i] == '\n')
+			{
+					WoTD[i] = '\0';
+			}
+			else
+			{
+					WoTD[i] =  buffer[seconds/86400%2309*6+i];
+			}
+	}
 
 	//convert all new lines to null terminators
 	for(int i = 0; i < 77682; i++)
@@ -64,6 +64,9 @@ int main(int argc, char **argv)
 			buffer[i] = '\0';
 		}
 	}
+
+	//sort buffer to search entire word list
+	qsort(buffer, 77682, sizeof(char), cmp);
 
 	//game loop starts here
 	char guess[128];
@@ -76,7 +79,7 @@ int main(int argc, char **argv)
 		gets(guess);
 
 		//check if input is more than 5 chars
-		if(strlen(guess != 6))
+		if(strlen(guess) != 6)
 		{
 			if(strlen(guess) > 6)
 			{
