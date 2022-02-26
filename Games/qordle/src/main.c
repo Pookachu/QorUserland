@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 	}
 
 	//sort buffer to search entire word list
-	qsort(buffer, 12947, sizeof(char), cmp);
+	qsort(buffer, 12947, 6*sizeof(char), cmp);
 
 	//game loop starts here
 	char guess[128];
