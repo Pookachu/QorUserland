@@ -149,6 +149,19 @@
         "output-path": "/bin/touch"
     },
     {
+        "name": "true",
+        "make-path": "qor-userland/Utils/true",
+        "bin-path": "qor-userland/Utils/true/bin/true",
+        "output-path": "/bin/true"
+    },
+    {
+        "name": "false",
+        "make-path": "qor-userland/Utils/false",
+        "bin-path": "qor-userland/Utils/false/bin/false",
+        "output-path": "/bin/false"
+    },
+
+    {
         "name": "shutdown",
         "make-path": "qor-userland/Utils/shutdown",
         "bin-path": "qor-userland/Utils/shutdown/bin/shutdown",
