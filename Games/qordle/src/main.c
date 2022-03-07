@@ -73,15 +73,25 @@ int main(int argc, char **argv)
 	int guesses = 1;
 
 	printf("Guess the 5 letter word of the day!\n");
-	while(1)
+	while(guesses <6)
 	{
 		printf("[%i] ", guesses);
 		gets(guess);
 
-		//check if input is more than 5 chars
-		if(strlen(guess) != 6)
+		//sanatize newline char from input
+		for(int i = 0; i < strlen(guess); i++)
 		{
-			if(strlen(guess) > 6)
+			if(guess[i] == '\n')
+			{
+				guess[i] = '\0';
+			}
+		}
+
+		//check if input is not 5 chars
+		if(strlen(guess) != 5)
+		{
+			//more than 5
+			if(strlen(guess) > 5)
 			{
 				for(int i = 0; i < strlen(guess)-1; i++)
 				{
@@ -95,7 +105,10 @@ int main(int argc, char **argv)
 					}
 				}
 				printf("\x1b[0m\n");
+				continue;
 			}
+
+			//less than 5
 			else
 			{
 				for(int i = 0; i < strlen(guess); i++)
@@ -104,6 +117,7 @@ int main(int argc, char **argv)
 				}
 				printf("\x1b[0m\n");
 			}
+			continue;
 		}
 		
 		//check if input is not in the acceptable guess list
@@ -119,13 +133,12 @@ int main(int argc, char **argv)
 		{
 			guesses++;
 			printf("Good word\n");
-			return 0;
 		}
+	}
+	//finish game loop
 
-	}	
-
-		free(buffer);
-		return 0;
+	free(buffer);
+	return 0;
 }
 
 int get_length(FILE* fp)
@@ -204,13 +217,13 @@ int acceptable_guess(char *haystack, int left_index, int right_index, char *gues
 
 		//perform comparison
 		int compare = strcmp(guess, &haystack[pivot*6]);
-		printf("%s\n", &haystack[pivot*6]);
+		printf("[%i]: %s\n", compare, &haystack[pivot*6]);
 
 		//check if needle is present
 		if(compare == 0)
 			return pivot;
 
-		//if x greater, ignore left half
+		//if x greater, ignore left half	
 		if(compare > 0)
 			left_index = pivot + 1;
 
